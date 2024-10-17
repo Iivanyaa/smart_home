@@ -14,14 +14,14 @@ class SensorListSerializer(serializers.ModelSerializer):
 
 
 class MeasurementSerializer(serializers.ModelSerializer):
+    sensor = serializers.PrimaryKeyRelatedField(queryset=Sensor.objects.all())
     class Meta:
         model = Measurement
-        fields = ['id', 'temperature', 'created_at']
+        fields = ['id', 'temperature', 'created_at', 'sensor']
 
 
 class SensorDetailSerializer(serializers.ModelSerializer):
     measurements = MeasurementSerializer(many=True, read_only=True)
-
     class Meta:
         model = Sensor
         fields = ['id', 'name', 'description', 'measurements']
